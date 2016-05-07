@@ -1,0 +1,8 @@
+version: '2'
+services:
+  webshop:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    ports:
+      - "8083:80"
