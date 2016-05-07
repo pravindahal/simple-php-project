@@ -1,2 +1,3 @@
 # simple-php-project
-PHP project for continuous delivery testing
+
+PHP project for testing continuous integration.
