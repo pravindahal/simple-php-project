@@ -1,4 +1,4 @@
-FROM nginx:stable
+FROM nginx:alpine
 
 ADD ./project /var/www/project
 WORKDIR /var/www/project

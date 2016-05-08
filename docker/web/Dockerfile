@@ -1,4 +1,4 @@
-FROM php:7.0-fpm
+FROM php:7.0-fpm-alpine
 RUN docker-php-ext-install opcache
 
 ADD ./project /var/www/project
