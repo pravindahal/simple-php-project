@@ -53,7 +53,7 @@ node {
     slackTeamDomain = 'futurehome'
     slackToken = '19Od0SqpYws7H8uu1Lap9hAs'
     repoName = 'simple-php-project'
-    slackMessage = "Successfully built <https://github.com/$githubUser/$repoName/tree/master/${env.BRANCH_NAME}|$repoName:${env.BRANCH_NAME}> ${commitId}"
+    slackMessage = "Successfully built <https://github.com/$githubUser/$repoName/tree/${env.BRANCH_NAME}|$repoName:${env.BRANCH_NAME}> \n<https://github.com/futurehomeno/client/commit/$commitId|$commitId>"
     slackSend channel: slackChannel, color: 'good', message: slackMessage, teamDomain: slackTeamDomain, token: slackToken
   }
 }
