@@ -8,7 +8,7 @@ node {
   docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-pravindahal') {
 
     stage 'Bake Docker image'
-    def pcImg = docker.build("pravindahal/simple-php-project.nginx:${env.GIT_COMMIT}", '-f docker/web/Dockerfile .')
+    def pcImg = docker.build("pravindahal/simple-php-project.nginx:testing", '-f docker/web/Dockerfile .')
 
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
