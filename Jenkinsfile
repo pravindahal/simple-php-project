@@ -17,8 +17,12 @@ node {
     commitId = readFile('COMMIT_ID').replaceAll("\\s+","")
 
     // Get commit message
-    sh 'git log --format="%H" -n 1 > COMMIT_ID'
-    commitId = readFile('COMMIT_ID').replaceAll("\\s+","")
+    sh 'git log --format="%s" -n 1 > COMMIT_MESSAGE'
+    commitMessage = readFile('COMMIT_MESSAGE').replaceAll("\\s+","")
+
+    // Get commit author
+    sh 'git log --format="%an" -n 1 > COMMIT_AUTHOR'
+    commitAuthor = readFile('COMMIT_AUTHOR').replaceAll("\\s+","")
 
     stage 'Bake Docker image'
 
@@ -52,7 +56,7 @@ node {
     slackChannel = '#jenkins-build'
     repoName = 'simple-php-project'
     commitIdShort = commitId.take(10)
-    slackMessage = "Successfully built <https://github.com/$githubUser/$repoName/tree/${env.BRANCH_NAME}|$repoName:${env.BRANCH_NAME}> \n`<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>`"
+    slackMessage = "Successfully built image based on commit by $commitAuthor\n <https://github.com/$githubUser/$repoName/tree/${env.BRANCH_NAME}|$repoName:${env.BRANCH_NAME}>\n `<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>`"
 
     slackSend channel: slackChannel, color: 'good', message: slackMessage
   }
