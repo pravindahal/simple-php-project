@@ -7,6 +7,8 @@ node {
   // This is used to authenticate the Docker client to the registry.
   docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-pravindahal') {
 
+    checkout scm
+
     sh 'pwd && ls'
 
     stage 'Bake Docker image'
