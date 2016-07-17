@@ -32,6 +32,9 @@ node {
     commitAuthor = readFile('COMMIT_AUTHOR').replaceAll("^\\s+","").replaceAll("\\s+\$","")
     sh 'rm COMMIT_AUTHOR'
 
+    branchName = env.BRANCH_NAME
+    tagifiedBranchName = branchName.replaceAll("/", "--")
+
     stage 'Bake Docker image'
 
     sh 'cp docker/nginx/Dockerfile .'
@@ -52,8 +55,8 @@ node {
 
     stage name: 'Promote Image', concurrency: 1
     // All the tests passed. We can now retag and push the 'latest' image.
-    nginxImg.push(env.BRANCH_NAME)
-    webImg.push(env.BRANCH_NAME)
+    nginxImg.push(tagifiedBranchName)
+    webImg.push(tagifiedBranchName)
     //pcImg.push() //TODO version by calculating version number based on github release
     nginxImg.push('latest')
     webImg.push('latest')
@@ -63,7 +66,7 @@ node {
     githubUser = 'pravindahal'
     slackChannel = '#jenkins-build'
     repoName = 'simple-php-project'
-    slackMessage = "<https://github.com/$githubUser/$repoName/tree/${env.BRANCH_NAME}|[$repoName:${env.BRANCH_NAME}]> Image built for commit by $commitAuthor\n `<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>` $commitMessage"
+    slackMessage = "<https://github.com/$githubUser/$repoName/tree/$branchName|[$repoName:$branchName]> Image built for commit by $commitAuthor\n `<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>` $commitMessage"
 
     slackSend channel: slackChannel, color: 'good', message: slackMessage
   }
