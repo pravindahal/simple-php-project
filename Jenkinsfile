@@ -45,6 +45,6 @@ node {
 
     stage 'Slack Notify'
 
-    slackSend channel: '#jenkins-build', color: 'good', message: 'Successfully built simple-php-project ${env.BRANCH_NAME}:${commitId}', teamDomain: 'futurehome', token: '19Od0SqpYws7H8uu1Lap9hAs'
+    slackSend channel: '#jenkins-build', color: 'good', message: "Successfully built simple-php-project ${env.BRANCH_NAME}:${commitId}", teamDomain: 'futurehome', token: '19Od0SqpYws7H8uu1Lap9hAs'
   }
 }
