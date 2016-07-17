@@ -12,7 +12,7 @@ node {
     stage 'Bake Docker image'
 
     sh 'cp docker/nginx/Dockerfile .'
-    def pcImg = docker.build("pravindahal/simple-php-project.nginx:testing")
+    def pcImg = docker.build("pravindahal/simple-php-project.nginx:${env.GIT_COMMIT}")
 
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
