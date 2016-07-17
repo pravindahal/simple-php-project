@@ -7,7 +7,7 @@ node {
   // This is used to authenticate the Docker client to the registry.
   docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-pravindahal') {
 
-    sh 'ls'
+    sh 'pwd && ls'
 
     stage 'Bake Docker image'
     def pcImg = docker.build("pravindahal/simple-php-project.nginx:testing", '--pull=true --file=docker/web/Dockerfile .')
