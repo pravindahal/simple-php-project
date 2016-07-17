@@ -19,10 +19,13 @@ node {
     sh 'cp docker/nginx/Dockerfile .'
     def pcImg = docker.build("pravindahal/simple-php-project.nginx:test2")
 
-    stage 'Push current version'
+    stage 'Push various versions'
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
     pcImg.push();
+
+    //pcImg.push(); //TODO version by branch name
+    //pcImg.push(); //TODO version by calculating version number based on github release
 
 
     stage name: 'Promote Image', concurrency: 1
