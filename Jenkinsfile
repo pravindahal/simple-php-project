@@ -9,10 +9,10 @@ node {
 
     checkout scm
 
-    sh 'pwd && ls'
-
     stage 'Bake Docker image'
-    def pcImg = docker.build("pravindahal/simple-php-project.nginx:testing", '--pull=true --file=docker/web/Dockerfile .')
+
+    sh 'cp docker/web/Dockerfile .'
+    def pcImg = docker.build("pravindahal/simple-php-project.nginx:testing")
 
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
