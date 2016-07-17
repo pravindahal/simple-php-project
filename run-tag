@@ -1,0 +1,7 @@
+#!/bin/bash
+# Runs a specific tag of the project
+
+export TAGNAME=${1-master}
+
+docker-compose -f docker-compose-tag.yml pull
+docker-compose -f docker-compose-tag.yml up --remove-orphans -d
