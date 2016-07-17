@@ -42,5 +42,9 @@ node {
     //pcImg.push() //TODO version by calculating version number based on github release
     nginxImg.push('latest')
     webImg.push('latest')
+
+    stage 'Slack Notify'
+
+    slackSend channel: '#jenkins-build', color: 'good', message: 'Successfully built simple-php-project ${env.BRANCH_NAME}:${commitId}', teamDomain: 'futurehome', token: '19Od0SqpYws7H8uu1Lap9hAs'
   }
 }
