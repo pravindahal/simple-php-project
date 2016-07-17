@@ -11,7 +11,7 @@ node {
 
     checkout scm
 
-    echo "My branch is: ${env.BRANCH_NAME}"
+    echo "My branch is: ${env.CHANGE_ID}"
 
 
     stage 'Bake Docker image'
