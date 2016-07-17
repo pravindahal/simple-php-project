@@ -35,6 +35,9 @@ node {
     branchName = env.BRANCH_NAME
     tagifiedBranchName = branchName.replaceAll("/", "--")
 
+    // Lets find out if this commit has git tags
+    sh("git show-ref --tags | grep $commitId  | cut -d' ' -f2 > RELEASE")
+    releaseVersion = readFile('RELEASE').replaceAll("^\\s+","").replaceAll("\\s+\$","").replaceAll("refs/tags/", "")
 
     stage 'Bake Docker image'
 
@@ -55,12 +58,15 @@ node {
 
 
     stage name: 'Promote Image', concurrency: 1
-    // All the tests passed. We can now retag and push the 'latest' image.
+
     nginxImg.push(tagifiedBranchName)
     webImg.push(tagifiedBranchName)
-    //pcImg.push() //TODO version by calculating version number based on github release
     nginxImg.push('latest')
     webImg.push('latest')
+    if (releaseVersion != "") {
+      nginxImg.push(releaseVersion)
+      webImg.push(releaseVersion)
+    ​}​
 
 
     stage 'Slack Notify'
