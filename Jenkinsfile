@@ -14,17 +14,17 @@ node {
 
     // Could not find native way to find commit id, so using this hack
     sh 'git log --format="%H" -n 1 > COMMIT_ID'
-    commitId = readFile('COMMIT_ID').replaceAll("^\s+|\s+$|\s+(?=\s)","")
+    commitId = readFile('COMMIT_ID').replaceAll("^\\s+","").replaceAll("\\s+\$","")
     sh 'rm COMMIT_ID'
 
     // Get commit message
     sh 'git log --format="%s" -n 1 > COMMIT_MESSAGE'
-    commitMessage = readFile('COMMIT_MESSAGE').replaceAll("^\s+|\s+$|\s+(?=\s)","")
+    commitMessage = readFile('COMMIT_MESSAGE').replaceAll("^\\s+","").replaceAll("\\s+\$","")
     sh 'rm COMMIT_MESSAGE'
 
     // Get commit author
     sh 'git log --format="%an" -n 1 > COMMIT_AUTHOR'
-    commitAuthor = readFile('COMMIT_AUTHOR').replaceAll("^\s+|\s+$|\s+(?=\s)","")
+    commitAuthor = readFile('COMMIT_AUTHOR').replaceAll("^\\s+","").replaceAll("\\s+\$","")
     sh 'rm COMMIT_AUTHOR'
 
     stage 'Bake Docker image'
