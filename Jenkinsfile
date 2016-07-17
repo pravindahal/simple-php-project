@@ -35,6 +35,7 @@ node {
     branchName = env.BRANCH_NAME
     tagifiedBranchName = branchName.replaceAll("/", "--")
 
+
     stage 'Bake Docker image'
 
     sh 'cp docker/nginx/Dockerfile .'
@@ -60,6 +61,7 @@ node {
     //pcImg.push() //TODO version by calculating version number based on github release
     nginxImg.push('latest')
     webImg.push('latest')
+
 
     stage 'Slack Notify'
 
