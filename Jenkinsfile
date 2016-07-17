@@ -3,7 +3,7 @@
 node {
 
   // We are pushing to a private secure Docker registry in this demo.
-  // 'dockerhub-pravin' is the username/password credentials ID as defined in Jenkins Credentials.
+  // 'dockerhub-pravindahal' is the username/password credentials ID as defined in Jenkins Credentials.
   // This is used to authenticate the Docker client to the registry.
   docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-pravindahal') {
 
