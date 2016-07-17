@@ -68,7 +68,14 @@ node {
     githubUser = 'pravindahal'
     slackChannel = '#jenkins-build'
     repoName = 'simple-php-project'
-    slackMessage = "<https://github.com/$githubUser/$repoName/tree/$branchName|[$repoName:$branchName]> Image built for commit by $commitAuthor\n `<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>` $commitMessage\n*simple-php-project.nginx*: $tagifiedBranchName, $commitId, latest\n\n*simple-php-project.web*: $tagifiedBranchName, $commitId, latest"
+    githubBranchUrl = "https://github.com/$githubUser/$repoName/tree/$branchName"
+    githubCommitUrl = "https://github.com/$githubUser/$repoName/commit/$commitId"
+    dockerUsername = 'pravindahal'
+    dockerRepo1Name = 'simple-php-project.web'
+    dockerRepo1Url = "https://hub.docker.com/r/$dockerUsername/$dockerRepo1Name/tags/"
+    dockerRepo2Name = 'simple-php-project.nginx'
+    dockerRepo2Url = "https://hub.docker.com/r/$dockerUsername/$dockerRepo2Name/tags/"
+    slackMessage = "<$githubBranchUrl|[$repoName:$branchName]> Image built for commit by $commitAuthor\n `<$githubCommitUrl|$commitIdShort>` $commitMessage\n*<$dockerRepo1Url|$dockerRepo1Name>*: $tagifiedBranchName, $commitId, latest\n\n*<$dockerRepo2Url|$dockerRepo2Name>*: $tagifiedBranchName, $commitId, latest"
 
     slackSend channel: slackChannel, color: 'good', message: slackMessage
   }
