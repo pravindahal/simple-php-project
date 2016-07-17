@@ -16,6 +16,10 @@ node {
     sh 'git log --format="%H" -n 1 > COMMIT_ID'
     commitId = readFile('COMMIT_ID').replaceAll("\\s+","")
 
+    // Can't get branch name in normal pipeline job
+    sh 'git rev-parse --abbrev-ref HEAD > BRANCH_NAME'
+    branchName = readFile('BRANCH_NAME').replaceAll("\\s+","")
+
 
     stage 'Bake Docker image'
 
@@ -32,7 +36,7 @@ node {
 
     stage name: 'Promote Image', concurrency: 1
     // All the tests passed. We can now retag and push the 'latest' image.
-    pcImg.push(env.BRANCH_NAME)
+    pcImg.push(branchName)
     //pcImg.push() //TODO version by calculating version number based on github release
     pcImg.push('latest')
   }
