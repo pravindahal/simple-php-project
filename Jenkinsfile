@@ -22,14 +22,16 @@ node {
     stage 'Push various versions'
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
-    pcImg.push();
+    pcImg.push()
 
-    //pcImg.push(); //TODO version by branch name
-    //pcImg.push(); //TODO version by calculating version number based on github release
+    //pcImg.push() //TODO version by branch name
+    //pcImg.push() //TODO version by calculating version number based on github release
 
 
     stage name: 'Promote Image', concurrency: 1
     // All the tests passed. We can now retag and push the 'latest' image.
-    pcImg.push('latest');
+    pcImg.push('latest')
+
+    sh 'rm Dockerfile'
   }
 }
