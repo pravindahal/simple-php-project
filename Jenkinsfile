@@ -75,7 +75,7 @@ node {
     dockerRepo1Url = "https://hub.docker.com/r/$dockerUsername/$dockerRepo1Name/tags/"
     dockerRepo2Name = 'simple-php-project.nginx'
     dockerRepo2Url = "https://hub.docker.com/r/$dockerUsername/$dockerRepo2Name/tags/"
-    slackMessage = "*<$githubBranchUrl|[$repoName:$branchName]>* Image built for commit by $commitAuthor\n `<$githubCommitUrl|$commitIdShort>` $commitMessage\n<$dockerRepo1Url|$dockerRepo1Name>: `$tagifiedBranchName` `$commitId` `latest`\n\n<$dockerRepo2Url|$dockerRepo2Name>: `$tagifiedBranchName` `$commitId` `latest`"
+    slackMessage = "*<$githubBranchUrl|[$repoName:$branchName]>* Image built for commit by $commitAuthor\n `<$githubCommitUrl|$commitIdShort>` $commitMessage\n<$dockerRepo1Url|[$dockerRepo1Name]> `$tagifiedBranchName` `$commitId` `latest`\n\n<$dockerRepo2Url|[$dockerRepo2Name]> `$tagifiedBranchName` `$commitId` `latest`"
 
     slackSend channel: slackChannel, color: 'good', message: slackMessage
   }
