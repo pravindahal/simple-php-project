@@ -50,9 +50,8 @@ node {
 
     githubUser = 'pravindahal'
     slackChannel = '#jenkins-build'
-    slackTeamDomain = 'futurehome'
     repoName = 'simple-php-project'
     slackMessage = "Successfully built <https://github.com/$githubUser/$repoName/tree/${env.BRANCH_NAME}|$repoName:${env.BRANCH_NAME}> \n<https://github.com/$githubUser/$repoName/commit/$commitId|$commitId>"
-    slackSend channel: slackChannel, color: 'good', message: slackMessage, teamDomain: slackTeamDomain
+    slackSend channel: slackChannel, color: 'good', message: slackMessage
   }
 }
