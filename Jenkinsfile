@@ -11,7 +11,7 @@ node {
 
     stage 'Bake Docker image'
 
-    sh 'cp docker/web/Dockerfile .'
+    sh 'cp docker/nginx/Dockerfile .'
     def pcImg = docker.build("pravindahal/simple-php-project.nginx:testing")
 
     // Let us tag and push the newly built image. Will tag using the image name provided
