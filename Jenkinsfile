@@ -51,21 +51,28 @@ node {
 
 
     stage 'Push this version tagged by commit id'
+
+    tags = []
+
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
     nginxImg.push()
     webImg.push()
+    tags << commitId
 
 
     stage name: 'Promote Image', concurrency: 1
 
     nginxImg.push(tagifiedBranchName)
     webImg.push(tagifiedBranchName)
+    tags << tagifiedBranchName
     nginxImg.push('latest')
     webImg.push('latest')
+    tags << 'latest'
     if (releaseVersion != "") {
-      nginxImg.push(releaseVersion);
-      webImg.push(releaseVersion);
+      nginxImg.push(releaseVersion)
+      webImg.push(releaseVersion)
+      tags << releaseVersion
     ​}
 
 
@@ -81,7 +88,16 @@ node {
     dockerRepo1Url = "https://hub.docker.com/r/$dockerUsername/$dockerRepo1Name/tags/"
     dockerRepo2Name = 'simple-php-project.nginx'
     dockerRepo2Url = "https://hub.docker.com/r/$dockerUsername/$dockerRepo2Name/tags/"
-    slackMessage = "*<$githubBranchUrl|[$repoName:$branchName]>* Images built for commit by $commitAuthor\n `<$githubCommitUrl|$commitIdShort>` $commitMessage\n<$dockerRepo1Url|[$dockerRepo1Name]> `$tagifiedBranchName` `$commitId` `latest`\n\n<$dockerRepo2Url|[$dockerRepo2Name]> `$tagifiedBranchName` `$commitId` `latest`"
+
+    githubMessage = "*<$githubBranchUrl|[$repoName:$branchName]>* Images built for commit by $commitAuthor\n `<$githubCommitUrl|$commitIdShort>` $commitMessage"
+    dockerhubTagNames = ""
+    tags.each {
+      dockerhubTagNames = dockerhubTagNames + " `$it`"
+    }
+
+    dockerhubMessage = "<$dockerRepo1Url|[$dockerRepo1Name]>$dockerhubTagNames\n\n<$dockerRepo2Url|[$dockerRepo2Name]>$dockerhubTagNames"
+
+    slackMessage = "$githubMessage\n$dockerhubMessage"
 
     slackSend channel: slackChannel, color: 'good', message: slackMessage
   }
