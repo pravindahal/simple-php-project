@@ -16,6 +16,9 @@ node {
     sh 'git log --format="%H" -n 1 > COMMIT_ID'
     commitId = readFile('COMMIT_ID').replaceAll("\\s+","")
 
+    // Get commit message
+    sh 'git log --format="%H" -n 1 > COMMIT_ID'
+    commitId = readFile('COMMIT_ID').replaceAll("\\s+","")
 
     stage 'Bake Docker image'
 
@@ -45,6 +48,12 @@ node {
 
     stage 'Slack Notify'
 
-    slackSend channel: '#jenkins-build', color: 'good', message: "Successfully built simple-php-project ${env.BRANCH_NAME}:${commitId}", teamDomain: 'futurehome', token: '19Od0SqpYws7H8uu1Lap9hAs'
+    githubUser = 'pravindahal'
+    slackChannel = '#jenkins-build'
+    slackTeamDomain = 'futurehome'
+    slackToken = '19Od0SqpYws7H8uu1Lap9hAs'
+    repoName = 'simple-php-project'
+    slackMessage = "Successfully built <https://github.com/$githubUser/$repoName/tree/master/${env.BRANCH_NAME}|$repoName:${env.BRANCH_NAME}> ${commitId}"
+    slackSend channel: slackChannel, color: 'good', message: slackMessage, teamDomain: slackTeamDomain, token: slackToken
   }
 }
