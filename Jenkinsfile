@@ -39,7 +39,7 @@ node {
     sh("git show-ref --tags | grep $commitId  | cut -d' ' -f2 > RELEASE")
     releaseVersion = readFile('RELEASE').replaceAll("^\\s+","").replaceAll("\\s+\$","").replaceAll("refs/tags/", "")
 
-    stage 'Bake Docker image'
+    stage 'Bake Docker images'
 
     sh 'cp docker/nginx/Dockerfile .'
     def nginxImg = docker.build("pravindahal/simple-php-project.nginx:$commitId")
@@ -53,28 +53,38 @@ node {
     stage 'Push this version tagged by commit id'
 
     dockerhubTagNames = ""
+    dockerhubTagNames = dockerhubTagNames + " `$commitId`"
 
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
-    nginxImg.push()
-    webImg.push()
-    dockerhubTagNames = dockerhubTagNames + " `$commitId`"
+    parallel(nginxImage: {
+        nginxImg.push()
+    }, webImage: {
+        webImg.push()
+    })
 
 
     stage name: 'Promote Image', concurrency: 1
 
-    nginxImg.push(tagifiedBranchName)
-    webImg.push(tagifiedBranchName)
     dockerhubTagNames = dockerhubTagNames + " `$tagifiedBranchName`"
-    nginxImg.push('latest')
-    webImg.push('latest')
     dockerhubTagNames = dockerhubTagNames + " `latest`"
     if (releaseVersion != "") {
         dockerhubTagNames = dockerhubTagNames + " `$releaseVersion`"
-        nginxImg.push(releaseVersion)
-        webImg.push(releaseVersion)
-    ​}
+    }
 
+    parallel(nginxImage: {
+        nginxImg.push(tagifiedBranchName)
+        nginxImg.push('latest')
+        if (releaseVersion != "") {
+            nginxImg.push(releaseVersion)
+        }
+    }, webImage: {
+        webImg.push(tagifiedBranchName)
+        webImg.push('latest')
+        if (releaseVersion != "") {
+            webImg.push(releaseVersion)
+        }
+    })
 
     stage 'Slack Notify'
 
