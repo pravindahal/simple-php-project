@@ -17,6 +17,11 @@ node {
     commitId = readFile('COMMIT_ID').replaceAll("^\\s+","").replaceAll("\\s+\$","")
     sh 'rm COMMIT_ID'
 
+    // Abbreviated commit hash
+    sh 'git log --format="%h" -n 1 > COMMIT_ID_SHORT'
+    commitIdShort = readFile('COMMIT_ID_SHORT').replaceAll("^\\s+","").replaceAll("\\s+\$","")
+    sh 'rm COMMIT_ID_SHORT'
+
     // Get commit message
     sh 'git log --format="%s" -n 1 > COMMIT_MESSAGE'
     commitMessage = readFile('COMMIT_MESSAGE').replaceAll("^\\s+","").replaceAll("\\s+\$","")
@@ -58,7 +63,6 @@ node {
     githubUser = 'pravindahal'
     slackChannel = '#jenkins-build'
     repoName = 'simple-php-project'
-    commitIdShort = commitId.replaceAll(".{12,40}\$", "")
     slackMessage = "[<https://github.com/$githubUser/$repoName/tree/${env.BRANCH_NAME}|$repoName:${env.BRANCH_NAME}>] Successfully built image based on commit by $commitAuthor\n `<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>`: $commitMessage"
 
     slackSend channel: slackChannel, color: 'good', message: slackMessage
