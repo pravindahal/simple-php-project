@@ -1,3 +1,3 @@
 <?php
 
-echo "auto build test 5";
+echo "new branch - auto build test 5";
