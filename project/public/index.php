@@ -1,3 +1,3 @@
 <?php
 
-echo 'periodic check';
+phpinfo();
