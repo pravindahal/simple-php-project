@@ -13,7 +13,7 @@ node {
 
     echo "My branch is:"
     sh 'git log --format="%H" -n 1 > COMMIT_ID'
-    commitId = readFile('COMMIT_ID').trim(' \n\r')
+    commitId = readFile('COMMIT_ID').replaceAll("\\s+","")
 
     stage 'Bake Docker image'
 
