@@ -69,11 +69,12 @@ node {
     nginxImg.push('latest')
     webImg.push('latest')
     tags << 'latest'
-    /*if (releaseVersion != "") {
+    if (releaseVersion != "") {
+        releaseVersion = "release-" + releaseVersion
         tags << releaseVersion
         nginxImg.push(releaseVersion);
         webImg.push(releaseVersion);
-    ​}*/
+    ​}
 
 
     stage 'Slack Notify'
