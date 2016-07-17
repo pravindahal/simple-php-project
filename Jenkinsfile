@@ -71,8 +71,8 @@ node {
     tags << 'latest'
     if (releaseVersion != "") {
         tags << releaseVersion
-        nginxImg.push(releaseVersion)
-        webImg.push(releaseVersion)
+        //nginxImg.push(releaseVersion)
+        //webImg.push(releaseVersion)
     ​}
 
 
