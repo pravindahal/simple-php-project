@@ -70,10 +70,9 @@ node {
     webImg.push('latest')
     dockerhubTagNames = dockerhubTagNames + " `latest`"
     if (releaseVersion != "") {
-        releaseVersion = "release-" + releaseVersion
         dockerhubTagNames = dockerhubTagNames + " `$releaseVersion`"
-        nginxImg.push(releaseVersion);
-        webImg.push(releaseVersion);
+        nginxImg.push(releaseVersion)
+        webImg.push(releaseVersion)
     ​}
 
 
