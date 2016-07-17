@@ -20,20 +20,27 @@ node {
     stage 'Bake Docker image'
 
     sh 'cp docker/nginx/Dockerfile .'
-    def pcImg = docker.build("pravindahal/simple-php-project.nginx:${commitId}")
+    def nginxImg = docker.build("pravindahal/simple-php-project.nginx:${commitId}")
+    sh 'rm Dockerfile'
+
+    sh 'cp docker/web/Dockerfile .'
+    def webImg = docker.build("pravindahal/simple-php-project.web:${commitId}")
     sh 'rm Dockerfile'
 
 
     stage 'Push this version tagged by commit id'
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
-    pcImg.push()
+    nginxImg.push()
+    webImg.push()
 
 
     stage name: 'Promote Image', concurrency: 1
     // All the tests passed. We can now retag and push the 'latest' image.
-    pcImg.push(env.BRANCH_NAME)
+    nginxImg.push(env.BRANCH_NAME)
+    webImg.push(env.BRANCH_NAME)
     //pcImg.push() //TODO version by calculating version number based on github release
-    pcImg.push('latest')
+    nginxImg.push('latest')
+    webImg.push('latest')
   }
 }
