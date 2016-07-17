@@ -12,21 +12,20 @@ node {
     checkout scm
 
     echo "My branch is:"
-    sh 'env > env.txt'
-    sh 'cat env.txt'
-
+    sh 'git log --format="%H" -n 1 > COMMIT_ID'
+    commitId = readFile('COMMIT_ID')
 
     stage 'Bake Docker image'
 
     sh 'cp docker/nginx/Dockerfile .'
-    def pcImg = docker.build("pravindahal/simple-php-project.nginx:test2")
+    def pcImg = docker.build("pravindahal/simple-php-project.nginx:${commitId}")
 
     stage 'Push various versions'
     // Let us tag and push the newly built image. Will tag using the image name provided
     // in the 'docker.build' call above (which included the build number on the tag).
     pcImg.push()
 
-    //pcImg.push() //TODO version by branch name
+    pcImg.push(env.BRANCH_NAME)
     //pcImg.push() //TODO version by calculating version number based on github release
 
 
