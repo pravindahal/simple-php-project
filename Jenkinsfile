@@ -12,8 +12,8 @@ node {
     checkout scm
 
     echo "My branch is:"
-    echo env.BRANCH_NAME
-    echo env.CHANGE_ID
+    sh 'env > env.txt'
+    sh 'cat env.txt'
 
 
     stage 'Bake Docker image'
