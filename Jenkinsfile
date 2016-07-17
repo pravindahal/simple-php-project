@@ -55,7 +55,7 @@ node {
     githubUser = 'pravindahal'
     slackChannel = '#jenkins-build'
     repoName = 'simple-php-project'
-    commitIdShort = commitId.take(10)
+    commitIdShort = "$commitId".take(10)
     slackMessage = "Successfully built image based on commit by $commitAuthor\n <https://github.com/$githubUser/$repoName/tree/${env.BRANCH_NAME}|$repoName:${env.BRANCH_NAME}>\n `<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>`"
 
     slackSend channel: slackChannel, color: 'good', message: slackMessage
