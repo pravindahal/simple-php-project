@@ -39,11 +39,11 @@ node {
     stage 'Bake Docker image'
 
     sh 'cp docker/nginx/Dockerfile .'
-    def nginxImg = docker.build("pravindahal/simple-php-project.nginx:${commitId}")
+    def nginxImg = docker.build("pravindahal/simple-php-project.nginx:$commitId")
     sh 'rm Dockerfile'
 
     sh 'cp docker/web/Dockerfile .'
-    def webImg = docker.build("pravindahal/simple-php-project.web:${commitId}")
+    def webImg = docker.build("pravindahal/simple-php-project.web:$commitId")
     sh 'rm Dockerfile'
 
 
@@ -68,7 +68,7 @@ node {
     githubUser = 'pravindahal'
     slackChannel = '#jenkins-build'
     repoName = 'simple-php-project'
-    slackMessage = "<https://github.com/$githubUser/$repoName/tree/$branchName|[$repoName:$branchName]> Image built for commit by $commitAuthor\n `<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>` $commitMessage"
+    slackMessage = "<https://github.com/$githubUser/$repoName/tree/$branchName|[$repoName:$branchName]> Image built for commit by $commitAuthor\n `<https://github.com/$githubUser/$repoName/commit/$commitId|$commitIdShort>` $commitMessage\n*simple-php-project.nginx*: $tagifiedBranchName, $commitId, latest\n\n*simple-php-project.web*: $tagifiedBranchName, $commitId, latest"
 
     slackSend channel: slackChannel, color: 'good', message: slackMessage
   }
