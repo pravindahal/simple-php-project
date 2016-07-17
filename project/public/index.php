@@ -1,2 +1,3 @@
 <?php
-phpinfo();
+
+echo "auto build test";
