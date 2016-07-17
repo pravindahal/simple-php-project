@@ -91,8 +91,8 @@ node {
 
     githubMessage = "*<$githubBranchUrl|[$repoName:$branchName]>* Images built for commit by $commitAuthor\n `<$githubCommitUrl|$commitIdShort>` $commitMessage"
     dockerhubTagNames = ""
-    tags.each {
-      dockerhubTagNames = dockerhubTagNames + " `$it`"
+    for (tag in tags) {
+      dockerhubTagNames = dockerhubTagNames + " `$tag`"
     }
 
     dockerhubMessage = "<$dockerRepo1Url|[$dockerRepo1Name]>$dockerhubTagNames\n\n<$dockerRepo2Url|[$dockerRepo2Name]>$dockerhubTagNames"
