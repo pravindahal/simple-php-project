@@ -1,3 +1,3 @@
 <?php
 
-echo "auto build test 4";
+echo "auto build test 5";
