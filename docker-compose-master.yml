@@ -1,0 +1,12 @@
+version: '2'
+services:
+  web:
+    image: pravindahal/simple-php-project.web:master
+    ports:
+      - "9000:9000"
+  nginx:
+    image: pravindahal/simple-php-project.nginx:master
+    ports:
+      - "8000:80"
+    links:
+      - web
