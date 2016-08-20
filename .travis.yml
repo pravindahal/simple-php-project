@@ -1,8 +1,12 @@
 sudo: required
 
 env:
-  - COMMIT=$TRAVIS_COMMIT TAG_BRANCH=${TRAVIS_BRANCH/\//--} REPO=simple-php-project.web
-  - COMMIT=$TRAVIS_COMMIT TAG_BRANCH=${TRAVIS_BRANCH/\//--} REPO=simple-php-project.nginx
+  global:
+    - COMMIT=$TRAVIS_COMMIT
+    - TAG_BRANCH=${TRAVIS_BRANCH/\//--}
+  matrix:
+   - REPO=simple-php-project.web
+   - REPO=simple-php-project.nginx
 
 language: bash
 
