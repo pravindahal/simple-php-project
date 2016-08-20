@@ -1,0 +1,23 @@
+sudo: required
+
+env:
+  - COMMIT=$TRAVIS_COMMIT
+  - TAG_BRANCH=${TRAVIS_BRANCH/\//--}
+  - REPO_WEB=simple-php-project.web
+  - REPO_NGINX=simple-php-project.nginx
+
+language: bash
+
+services:
+  - docker
+
+script:
+  - docker build -f docker/web/Dockerfile -t $REPO_WEB:$COMMIT .
+  - docker tag $REPO_WEB:$COMMIT $REPO_WEB:$TAG_BRANCH $REPO_WEB:latest
+  - docker build -f docker/web/Dockerfile -t $REPO_NGINX:$COMMIT .
+  - docker tag $REPO_NGINX:$COMMIT $REPO_NGINX:$TAG_BRANCH $REPO_NGINX:latest
+
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - docker push $REPO_WEB
+  - docker push $REPO_NGINX
