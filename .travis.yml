@@ -11,7 +11,8 @@ services:
 
 script:
   - docker build -f docker/web/Dockerfile -t $REPO:$COMMIT .
-  - docker tag $REPO:$COMMIT $REPO:$TAG_BRANCH $REPO:latest
+  - docker tag $REPO:$COMMIT $REPO:$TAG_BRANCH
+  - docker tag $REPO:$COMMIT $REPO:latest
 
 after_success:
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
