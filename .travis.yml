@@ -5,8 +5,8 @@ env:
     - COMMIT=$TRAVIS_COMMIT
     - TAG_BRANCH=${TRAVIS_BRANCH/\//--}
   matrix:
-   - REPO=simple-php-project.web
-   - REPO=simple-php-project.nginx
+   - REPO=pravindahal/simple-php-project.web
+   - REPO=pravindahal/simple-php-project.nginx
 
 language: bash
 
