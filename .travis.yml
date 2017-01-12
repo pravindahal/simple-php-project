@@ -1,5 +1,5 @@
 sudo: required
-
+language: generic
 env:
   global:
     - TAG_BRANCH=${TRAVIS_BRANCH/\//--}
@@ -8,8 +8,6 @@ env:
      DOCKERFILE_PATH=docker/web/Dockerfile
    - REPO=pravindahal/simple-php-project.nginx
      DOCKERFILE_PATH=docker/nginx/Dockerfile
-
-language: bash
 
 services:
   - docker
