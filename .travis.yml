@@ -5,7 +5,9 @@ env:
     - TAG_BRANCH=${TRAVIS_BRANCH/\//--}
   matrix:
    - REPO=pravindahal/simple-php-project.web
+     DOCKERFILE_PATH=docker/web/Dockerfile
    - REPO=pravindahal/simple-php-project.nginx
+     DOCKERFILE_PATH=docker/nginx/Dockerfile
 
 language: bash
 
@@ -14,7 +16,7 @@ services:
 
 script:
   - docker pull $REPO
-  - docker build -f docker/web/Dockerfile -t $REPO:$TRAVIS_COMMIT .
+  - docker build -f $DOCKERFILE_PATH -t $REPO:$TRAVIS_COMMIT .
   - docker tag $REPO:$TRAVIS_COMMIT $REPO:$TAG_BRANCH
   - docker tag $REPO:$TRAVIS_COMMIT $REPO:latest
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
