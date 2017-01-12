@@ -21,6 +21,3 @@ script:
   - docker tag $REPO:$TRAVIS_COMMIT $REPO:latest
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
-
-notifications:
-  slack: futurehome:uOTCFkT2d7kTcrymCTUFaEcv
