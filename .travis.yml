@@ -2,7 +2,6 @@ sudo: required
 
 env:
   global:
-    - COMMIT=$TRAVIS_COMMIT
     - TAG_BRANCH=${TRAVIS_BRANCH/\//--}
   matrix:
    - REPO=pravindahal/simple-php-project.web
@@ -15,9 +14,9 @@ services:
 
 script:
   - docker pull $REPO
-  - docker build -f docker/web/Dockerfile -t $REPO:$COMMIT .
-  - docker tag $REPO:$COMMIT $REPO:$TAG_BRANCH
-  - docker tag $REPO:$COMMIT $REPO:latest
+  - docker build -f docker/web/Dockerfile -t $REPO:$TRAVIS_COMMIT .
+  - docker tag $REPO:$TRAVIS_COMMIT $REPO:$TAG_BRANCH
+  - docker tag $REPO:$TRAVIS_COMMIT $REPO:latest
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
 
