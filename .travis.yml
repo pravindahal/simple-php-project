@@ -3,6 +3,7 @@ language: generic
 env:
   global:
     - TAG_BRANCH=${TRAVIS_BRANCH/\//--}
+    - TAG_BRANCH=${TAG_BRANCH/\+/-}
   matrix:
    - REPO=pravindahal/simple-php-project.web
      DOCKERFILE_PATH=docker/web/Dockerfile
